@@ -6,16 +6,15 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions
 
 class AuthTokenSerializer(serializers.Serializer):
-    email = serializers.CharField()
-    password = serializers.CharField()
+    key = serializers.CharField()
 
     def validate(self, attrs):
         key = attrs.get('key')
-
         if key:
-            user = User.objects.get(user = UserKey.objects.get(key=key))
 
-            if user and not EmailAddress.objects.filter(user=user, email=email, verified=True).exists():
+            data = UserKey.objects.get(key=key)
+            user = data.user
+            if user and not EmailAddress.objects.filter(user=user, email=user.email, verified=True).exists():
                 msg = _('Your Account is not verified')
                 raise exceptions.ValidationError(msg)
             elif user:

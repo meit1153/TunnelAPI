@@ -9,6 +9,7 @@ from .models import UserKey, AvailablePort, AssignPort
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth import login, authenticate
 
 # Create your views here.
 
@@ -19,11 +20,16 @@ class LoginView(APIView):
 
     def post(self, request, format=None):
         try:
-            serializer = AuthTokenSerializer(data = request.data)
-            serializer.is_valid(raise_exception = True)
-            user = serializer.validated_data['user']
+            try:
+                serializer = AuthTokenSerializer(data=request.data)
+                serializer.is_valid(raise_exception = True)
 
-            login(request, user)
+                key = serializer.validated_data['key']
+            
+                data = UserKey.objects.get(key=key)
+            except:
+                return Response({'error': 'Please enter valid user key'}, status=status.HTTP_400_BAD_REQUEST)
+            user = data.user
             token, created = Token.objects.get_or_create(user=user)
             context = {
                     'token' : token.key,
