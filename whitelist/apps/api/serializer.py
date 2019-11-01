@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserKey, AssignPort, AvailablePort
+from .models import UserKey, AssignPort
 from allauth.account.models import EmailAddress
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import exceptions
@@ -36,7 +36,7 @@ class AssignedPortSerializer(serializers.Serializer):
     
     class Meta:
         model = AssignPort
-        field = ('user', 'key', 'assigned_port', 'user_ip', 'user_port', 'is_enable')
+        field = ('user', 'assigned_port', 'user_ip', 'user_port', 'is_enable')
 
 class AddAssignedPortSerializer(serializers.Serializer):
 
