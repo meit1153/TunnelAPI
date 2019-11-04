@@ -34,6 +34,7 @@ class LoginView(APIView):
             token, created = Token.objects.get_or_create(user=user)
             context = {
                     'token' : token.key,
+                    'host' : data.host,
                     'success': 'Successfully Logged In'
             }
             return Response(context, status = status.HTTP_200_OK)

@@ -4,7 +4,7 @@ from .models import UserKey, AssignPort
 # Register your models here.
 
 class UserKeyAdmin(admin.ModelAdmin):
-  list_display = ('user', 'key')
+  list_display = ('user', 'key', 'host')
   
 
 class AssignPortAdmin(admin.ModelAdmin):

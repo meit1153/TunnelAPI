@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 class UserKey(models.Model):
     user = models.ForeignKey(User, db_index=True, on_delete=models.SET_NULL,related_name="usernames", null=True)
     key = models.CharField(_("Key"), max_length=100, db_index=True, null=True, blank=True)
+    host = models.CharField(_("Host"), max_length=100, db_index=True, null=True, blank=True)
 
     class Meta:
         verbose_name = "UserKey"
